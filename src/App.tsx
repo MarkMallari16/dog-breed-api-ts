@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import './App.css'
 import DogCard from './components/DogCard';
 import { Dog, PawPrint, Search, Shuffle } from 'lucide-react';
