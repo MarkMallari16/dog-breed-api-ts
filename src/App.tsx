@@ -9,10 +9,14 @@ function App() {
   const [search, setSearch] = useState<string>("");
   const [hasSearch, setHasSearch] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
 
   //getting user input
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
+    if (e.target.value.trim() !== "") {
+      setError("");
+    }
   }
 
   //for enter key input
@@ -68,6 +72,11 @@ function App() {
   }
   //for button click
   const searchDog = async () => {
+    if (search.trim() === "") {
+      setError("Please enter a breed name");
+      return;
+    }
+    setError("")
     setHasSearch(true);
     fetchDogAPI()
   }
@@ -86,7 +95,10 @@ function App() {
             </div>
           </div>
           <div className='flex flex-wrap lg:flex-nowrap gap-2 mt-4'>
-            <input type="text" value={search} onChange={handleSearchChange} onKeyDown={handleEnterFetch} className='input border w-full' placeholder='Search Breed Here...' />
+            <div className=' w-full'>
+              <input type="text" value={search} onChange={handleSearchChange} onKeyDown={handleEnterFetch} className={`input w-full ${error && 'input-error'}`} placeholder='Search Breed Here...' />
+              <span className='text-error'>{error && error}</span>
+            </div>
             <button onClick={searchDog} className='mt-2 lg:mt-0 btn btn-accent w-full lg:w-auto' disabled={isLoading}>
               {isLoading ?
                 <span className="loading loading-spinner loading-xs"></span>
