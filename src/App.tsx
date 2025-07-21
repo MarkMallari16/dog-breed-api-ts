@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import DogCard from './components/DogCard';
 import { Dog, PawPrint, Search, Shuffle } from 'lucide-react';
@@ -19,6 +19,10 @@ function App() {
   const handleEnterFetch = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") searchDog();
   }
+
+  useEffect(() => {
+    fetchRandomDog();
+  }, [])
 
   //api
   const fetchDogAPI = async () => {
@@ -81,9 +85,9 @@ function App() {
               <p className='pt-1 text-gray-600'>Search for specific dog breeds or get random adorable dog photos</p>
             </div>
           </div>
-          <div className='flex gap-2 mt-4'>
+          <div className='flex flex-wrap lg:flex-nowrap gap-2 mt-4'>
             <input type="text" value={search} onChange={handleSearchChange} onKeyDown={handleEnterFetch} className='input border w-full' placeholder='Search Breed Here...' />
-            <button onClick={searchDog} className='btn btn-accent' disabled={isLoading}>
+            <button onClick={searchDog} className='mt-2 lg:mt-0 btn btn-accent w-full lg:w-auto' disabled={isLoading}>
               {isLoading ?
                 <span className="loading loading-spinner loading-xs"></span>
                 :
@@ -91,7 +95,7 @@ function App() {
               }
               {isLoading ? "loading..." : "Search"}
             </button>
-            <button onClick={fetchRandomDog} className='btn btn-secondary' disabled={isLoading}>
+            <button onClick={fetchRandomDog} className='btn btn-secondary w-full lg:w-auto' disabled={isLoading}>
               <Shuffle size={20} />
               Random
             </button>
@@ -106,18 +110,31 @@ function App() {
             </div>
           )
           : hasSearch && dogs.length === 0 ? (
-            <div className='mt-8 flex gap-1 items-center py-8 px-10 ring-1 ring-inset ring-gray-300 rounded-md bg-white'>
-              <Dog size={40} />
-              <p>
+            <div className='mt-8 flex flex-col gap-1 items-center py-8 px-10 ring-1 ring-inset ring-gray-300 rounded-md bg-white text-gray-600'>
+              <Dog size={60} />
+              <p className=''>
                 Breed not found. Try breeds like: labrador, golden, poodle, bulldog, etc.
               </p>
             </div>
           ) :
             <div className='pt-10 grid lg:grid-cols-3 gap-4'>
               {
-                dogs.slice(0, 12).map((dog, index) => (
-                  <DogCard dogImage={dog} key={index} />
-                ))
+                dogs.slice(0, 12).map((dog, index) => {
+                  //split the image source
+                  const urlParts = dog.split("/");
+                  //get the breed at index 4
+                  const breedSegments = urlParts[4];
+                  //if breed have dash it will split, reverse then join
+                  const breed = breedSegments.includes("-") ? breedSegments.split("-").reverse().join(" ") : breedSegments;
+
+                  //this will formatted the the first letter into uppercase
+                  const formattedBreed = breed.split(" ")
+                    .map(word => word[0].toUpperCase() + word.slice(1))
+                    .join(" ");
+
+                  //returning DogCard
+                  return <DogCard breed={formattedBreed} image={dog} key={index} />
+                })
               }
             </div>
         }

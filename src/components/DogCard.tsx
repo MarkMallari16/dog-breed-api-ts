@@ -1,15 +1,17 @@
 import { Heart } from "lucide-react";
 
 interface DogProps {
-    dogImage: string;
+    breed: string;
+    image: string;
 }
-const DogCard = ({ dogImage }: DogProps) => {
+const DogCard = ({ breed, image }: DogProps) => {
     return (
-        <div className="ring-1 ring-inset ring-gray-300 rounded-xl ">
+        <div className="ring-1 ring-inset ring-gray-300 rounded-xl bg-white">
             <div className="w-full overflow-hidden rounded-xl">
-                <img src={dogImage} alt={dogImage} className="w-full h-96 object-cover   rounded-t-lg hover:scale-110 transition-all ease-in-out" />
+                <img src={image} alt={image} className="w-full h-96 object-cover   rounded-t-lg hover:scale-110 transition-all ease-in-out" />
             </div>
-            <div className="flex justify-end py-4 pe-2 ">
+            <div className="flex justify-between p-4 ">
+                <p className="font-medium">{breed}</p>
                 <Heart className="text-gray-500 cursor-pointer hover:text-red-500" />
             </div>
         </div>
