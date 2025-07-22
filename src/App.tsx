@@ -122,9 +122,9 @@ function App() {
             </div>
           )
           : hasSearch && dogs.length === 0 ? (
-            <div className='mt-8 flex flex-col gap-1 items-center py-8 px-10 ring-1 ring-inset ring-gray-300 rounded-md bg-white text-gray-600'>
+            <div className='mt-8 flex flex-col text-center gap-1 justify-center items-center py-8 px-10 ring-1 ring-inset ring-gray-300 rounded-md bg-white text-gray-600'>
               <Dog size={60} />
-              <p className=''>
+              <p >
                 Breed not found. Try breeds like: labrador, golden, poodle, bulldog, etc.
               </p>
             </div>
