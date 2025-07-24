@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import DogCard from './components/DogCard';
-import { Dog, PawPrint, Search, Shuffle } from 'lucide-react';
+import { Dog, Github, PawPrint, Search, Shuffle } from 'lucide-react';
 
 function App() {
   //states
@@ -151,8 +151,12 @@ function App() {
             </div>
         }
       </div>
-      <footer className='text-center text-gray-500'>
+      <footer className='flex flex-col  justify-center items-center text-gray-500'>
+        <a href="https://github.com/MarkMallari16" target="_blank">
+          <Github />
+        </a>
         <p>@2025 Mark Christian Mallari</p>
+
       </footer>
     </div>
   )
